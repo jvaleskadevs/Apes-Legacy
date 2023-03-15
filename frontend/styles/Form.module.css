@@ -1,0 +1,28 @@
+form {
+	
+
+}
+
+form text-area {
+	padding: 15px;
+	outline: none;
+	border: 1px solid #3a3a43;
+	border-radius: 10px;
+	background-color: transparent;
+	
+	font-size: 14px;
+	
+	min-width: 300px;
+}
+
+form input {
+	padding: 15px;
+	outline: none;
+	border: 1px solid #3a3a43;
+	border-radius: 10px;
+	background-color: transparent;
+	
+	font-size: 14px;
+	
+	min-width: 300px;
+}

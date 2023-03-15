@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,500;1,400&display=swap');
+
+html,
+body {
+	background-color: black;
+	font-family: 'Rubik';
+	font-weight: normal;
+}
+h1{
+	margin-bottom: 1rem;
+}
+h2{
+	margin-bottom: .5rem;
+	font-weight: normal;
+
+}
+
+p{
+	line-height: 1.5rem;
+	font-weight: lighter;
+
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+form {
+	width: 100%;
+	margin: 65px 0 0 0;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: columns;
+	align-items: center;
+	justify-content: center;
+}
+
+form text-area {
+	padding: 15px;
+	outline: none;
+	border: 1px solid #3a3a43;
+	border-radius: 10px;
+	background-color: transparent;
+	
+	font-size: 14px;
+	
+	min-width: 300px;
+}
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+form input {
+	padding: 15px;
+	outline: none;
+	border: 1px solid #3a3a43;
+	border-radius: 10px;
+	background-color: transparent;
+	color: white;
+	
+	font-size: 14px;
+	
+	min-width: 300px;
+}
+
+label {
+	display: flex;
+	flex-direction: columns;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+label span {
+	margin: 24px;
+}
+
+button {
+	font: bold;
+	font-size: 16px;
+	font-weight: medium;
+	padding: 12px 16px;
+	border: 1px solid blue;
+	border-radius: 16px;
+	background: linear-gradient(180deg, rgba(54,190,255,1) 0%, blue 33%, blue 100%);
+	color: white;
+	margin: 16px;
+	cursor: pointer;
+}
+
+button:hover {
+	background: linear-gradient(180deg, blue 0%, rgba(54,190,255,1) 99%);
+}
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+	html {
+	}
+}
