@@ -32,6 +32,16 @@ export default function RegisterOrClaimComponent() {
 						<p>CLAIM</p>
 					</div>
 				</Link>
+				<Link
+					href={{
+						pathname: '/apes/[ape]/notify',
+						query: { ape: ape }
+					}}
+				>
+					<div className={styles.button}>
+						<p>NOTIFY</p>
+					</div>
+				</Link>
 			</div>
 		</div>
 	);

@@ -89,8 +89,16 @@ button {
 	cursor: pointer;
 }
 
+button.outlined {
+	background: transparent; 
+}
+
 button:hover {
 	background: linear-gradient(180deg, blue 0%, rgba(54,190,255,1) 99%);
+}
+
+button.outlined:hover {
+	background: linear-gradient(180deg, black 0%, black 66%, blue 99%);
 }
 
 * {

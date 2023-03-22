@@ -3,6 +3,7 @@ const CustomButton = ({ btnType, title, handleClick, styles }) => {
     <button
       type={btnType}
       onClick={handleClick}
+      className={styles}
     >
       {title}
     </button>
