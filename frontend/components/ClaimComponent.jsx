@@ -100,7 +100,7 @@ export default function ClaimComponent() {
 				await inheritApesContract.claimApe(tokenID);
 				
 			} else {
-				if (!ethers.utils.isAddress(apeHolderAddress || apeHolderAddress == ethers.constants.ZeroAddress)) {
+				if (!ethers.utils.isAddress(apeHolderAddress) || apeHolderAddress == ethers.constants.AddressZero) {
 					console.log("Invalid holder address");
 					notify(false, 'Invalid holder address');
 					return;			
