@@ -46,6 +46,9 @@ any previous register for tokenId or for all of them.
  - The register/unregister flow consists on update these mappings.
  - The claim token(s) flow consists on transfer the token(s) after check these mappings.
  
+ - The service includes a notification system to help the registrants like Bob not to miss the
+   extension of the claim date. This system uses the Push protocol and Polybase.
+ 
  - Yeah, I know, this is nothing complex, but that's all!
 
 ## Price
@@ -63,13 +66,16 @@ any previous register for tokenId or for all of them.
  - To receive the notifications the registrants should download the Push App in their smartphones.
  - Currently this repo is missing the ShowRunners framework. It is required to allow the Apes Legacy Channel to know 
    about claim dates and to know when to send a notification to a registrant.
- - The ShowRunners framework will fetch the data from Polybase, a decentralized database.
+ - The ShowRunners framework will fetch the data from Polybase, then it will send the notifications to the required users.
  
  ## Polybase
  
  - The decentralized database is in charge of store the necessary data to manage the notifications trough the Push Protocol.
- - The current schema of the database is not matching the current deployed dApp. (I am working in auth atm)
- - The final version will include user authentication, current version does not include it.
+ - Polybase requires the registrant's signature to create/update/delete their data from the database. Your keys, your data.  
+ - The registrant may change the number of days to be notified before reach the claim date without problem.
+ - The registrant is in charge to update the claim date stored in Polybase whenever he/she changes this date in the blockchain.
+ - The previous feature could be done automatically at the moment of register an Ape to the service. Separated for simplicity.
+ - The registrant may delete their data from the database to stop receiving notifications in the future.
 
 ## Goerli Contracts
 
