@@ -9,7 +9,9 @@
 		"lint": "next link"
 	},
 	"dependencies": {
+		"@polybase/auth": "^0.3.37",
 		"@polybase/client": "^0.3.36",
+		"@polybase/eth": "^0.3.37",
 		"@polybase/react": "^0.3.36",
 		"@pushprotocol/restapi": "^0.8.1",
 		"@rainbow-me/rainbowkit": "^0.8.1",

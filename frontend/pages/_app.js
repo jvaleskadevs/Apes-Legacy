@@ -15,7 +15,8 @@ import {
 } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { PolybaseProvider } from "@polybase/react";
+import { PolybaseProvider, AuthProvider } from "@polybase/react";
+import { Auth } from '@polybase/auth';
 import { Polybase } from "@polybase/client";
 import MainLayout from "../layout/mainLayout";
 
@@ -48,6 +49,8 @@ const polybase = new Polybase({
 	defaultNamespace: "pk/0xb2de1a71c3b4ae98f578719241d1616e37dab9794ae430e12146c6b220df491adda19ac770387df81d6389099f580e4b63f2e349769afeceb657076fc9e6b19e/apes-legacy"
 });
 
+const auth = typeof window !== "undefined" ? new Auth() : null;
+
 export { WagmiConfig, RainbowKitProvider };
 function MyApp({ Component, pageProps }) {
 	return (
@@ -58,9 +61,11 @@ function MyApp({ Component, pageProps }) {
 				chains={chains}
 			>
 				<PolybaseProvider polybase={polybase}>
-					<MainLayout>
-						<Component {...pageProps} />
-					</MainLayout>
+					<AuthProvider auth={auth} polybase={polybase}>
+						<MainLayout>
+							<Component {...pageProps} />
+						</MainLayout>
+					</AuthProvider>
 				</PolybaseProvider>
 			</RainbowKitProvider>
 		</WagmiConfig>

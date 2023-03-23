@@ -5,12 +5,14 @@ import { useAccount, useSigner } from 'wagmi';
 import { ethers } from 'ethers';
 import * as PushAPI from "@pushprotocol/restapi";
 import { pushChannelAddress } from '/constants';
-import { usePolybase, useDocument } from "@polybase/react";
+import { usePolybase, useAuth } from "@polybase/react";
+import { ethPersonalSignRecoverPublicKey } from '@polybase/eth';
 import FormField from '/components/FormField';
 import Header from '/components/Header';
 import CustomButton from '/components/CustomButton';
 import { apesContractAddresses, inheritApesContractAddresses, inheritApesAbis, toastOptions } from "../constants/index.js";
 import { toast } from 'react-toastify';
+
 
 export default function NotifyComponent () {
 	const router = useRouter();
@@ -23,6 +25,40 @@ export default function NotifyComponent () {
 	const [databaseUser, setDatabaseUser] = useState();
 	const [notifyBefore, setNotifyBefore] = useState(''); 
 	const [deadlines, setDeadlines] = useState();
+	
+	
+	const { auth, state } = useAuth();
+	
+	console.log(auth);
+	console.log(state);
+
+	async function getPublicKey() {
+		const msg = 'Login with Chat *';
+		const sig = await auth.ethPersonalSign(msg);
+		const publicKey = ethPersonalSignRecoverPublicKey(sig, msg);
+		return '0x' + publicKey.slice(4); //?!
+	}
+	
+  	const polybaseSignIn = async () => { 
+    	const res = await auth?.signIn({ 
+    		force: address.toLowerCase() != auth?.state?.userId 
+		});
+    	
+    	let publicKey = res.publicKey;
+    	
+    	if (!publicKey) {
+    		console.log("no publickey");
+    		publicKey = await getPublicKey();
+    		console.log(publicKey);
+    	}
+    	
+    	polybase.signer(async (data) => {
+			return {
+				h: 'eth-personal-sign',
+				sig: await auth?.ethPersonalSign(data)
+			}
+		});
+  	}
 	
 	const subscribeToChannel = async () => {
 		await PushAPI.channels.subscribe({
@@ -48,16 +84,18 @@ export default function NotifyComponent () {
 	
 	const subscribeToDatabase = async () => {
 		try {
+			const authState = await polybaseSignIn();
+			console.log(authState);
+			console.log(state);
+			
 			const user = await getDatabaseUser();
-			setDatabaseUser(user);
 			console.log(user);
+			setDatabaseUser(user);
 			
 			for (let i = 0; i < nfts.length; i++) {
-				if (nfts[i].deadline == ethers.constants.AddressZero) {
-					continue;
-				}
 				await createNewNotification(nfts[i].tokenId, nfts[i].deadline);
 			}
+			
 		} catch (err) {
 			console.log(err);
 		}
@@ -65,16 +103,16 @@ export default function NotifyComponent () {
 	
 	const unsubscribeToDatabase = async () => {
 		try {
-			await polybase.collection('User').record(address).call("del");
+			const authState = await polybaseSignIn();
+			console.log(authState);
+			console.log(state);
 			
 			for (let i = 0; i < nfts.length; i++) {
-				if (nfts[i].deadline == ethers.constants.AddressZero) {
-					continue;
-				}
 				await polybase.collection('Notifications').record(
-					address.concat('/', ape, '/', tokenId)
+					address.toLowerCase().concat('/', ape, '/', nfts[i].tokenId)
 				).call("del");
 			}
+			await polybase.collection('User').record(address.toLowerCase()).call("del");
 		} catch (err) {
 			console.log(err);
 		}
@@ -82,9 +120,9 @@ export default function NotifyComponent () {
 	
 	const getDatabaseUser = async () => {
 		try {
-			return await polybase.collection('User').record(address).get();
+			return await polybase.collection('User').record(address.toLowerCase()).get();
 		} catch (err) {
-			return await polybase.collection('User').create([address]);
+			return await polybase.collection('User').create([address.toLowerCase()]);
 		}		
 	}
 	
@@ -98,19 +136,19 @@ export default function NotifyComponent () {
 				tokenId,//token
 				deadline,//((new Date().getTime()) + 1200),//deadline
 				notifyAfter,//((new Date().getTime()) - 1200),//notifyAfter
-				polybase.collection('User').record(address)//owner
+				polybase.collection('User').record(address.toLowerCase())//owner
 			]);
 			
 		} catch (err) {
+			console.log(err);
 			if (err.code == "already-exists") {
 				await polybase.collection("Notifications").record(
-					address.concat('/', ape, '/', tokenId)
+					address.toLowerCase().concat('/', ape, '/', tokenId)
 				).call("update", [
 					deadline,
 					notifyAfter
 				]);
 			}
-			console.log(err);
 		}
 	}
 	
@@ -131,9 +169,9 @@ export default function NotifyComponent () {
 		}		
 	}
 	
-	const handleUnsubscribeClick = async () => {
-		//await polybase.collection("User").record(address).call("updatePublicKey", []);
-		
+	const handleUnsubscribeClick = async (e) => {
+		e.preventDefault();
+
 		try {
 			await unsubscribeToChannel();
 			await unsubscribeToDatabase(); 
@@ -142,6 +180,7 @@ export default function NotifyComponent () {
 			console.log(err);
 			notify(false, err.message);
 		}
+
 	}
 	
 	const [nfts, setNfts] = useState();
@@ -193,10 +232,12 @@ export default function NotifyComponent () {
 						} else {
 							deadline = deadlineForAll;
 						}
-						apes.push({ ...res.nfts[jj],
-							deadline: deadline,
-							ape: ape
-						});
+						if (deadline > ethers.constants.AddressZero) {
+							apes.push({ ...res.nfts[jj],
+								deadline: deadline,
+								ape: ape
+							});						
+						}
 					}
 				}
 				
@@ -236,15 +277,22 @@ export default function NotifyComponent () {
 		}
 	}
 	
+	useEffect(() => {
+		auth?.onAuthUpdate((authState) => {
+			polybase.signer(async (data) => {
+				return {
+					h: 'eth-personal-sign',
+					sig: await auth.ethPersonalSign(data),
+				}
+			});
+		});
+	}, [address]);
+	
 	return (
 		<div className={styles.container}>
 			<header className={styles.header_container}>
 				<Header />
-			</header>			
-			
-			<div>
-				<h3>{databaseUser ? databaseUser.data.id : ""}</h3>
-			</div>
+			</header>
 			
 			<div className={styles.buttons_container}>
 				<form onSubmit={handleSubmit}>
@@ -266,7 +314,7 @@ export default function NotifyComponent () {
 							title="Cancel Notifications"
 							type="button"
 							styles="outlined"
-							handleClick={handleUnsubscribeClick}
+							handleClick={(e) => handleUnsubscribeClick(e)}
 						/>
 						<CustomButton 
 							title="Activate Notifications"
