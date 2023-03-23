@@ -54,7 +54,22 @@ any previous register for tokenId or for all of them.
  - The price for tokenId is 3 Ape Coin.
  - The price for all tokens is 10 Ape Coin.
  - The price must to be paid only the first time using the service. (for tokenId and forAll)
-
+ 
+ ## Push Notifications 
+ 
+ - The registrant may set the notifications ON/OFF to start/stop receiving notifications trough the Push Protocol.
+ - The registrant may set the desired days to be notified before reach the claim date. A notification will be sent daily.
+ - This mechanism should help registrants to remember that they need to extend their claim date.
+ - To receive the notifications the registrants should download the Push App in their smartphones.
+ - Currently this repo is missing the ShowRunners framework. It is required to allow the Apes Legacy Channel to know 
+   about claim dates and to know when to send a notification to a registrant.
+ - The ShowRunners framework will fetch the data from Polybase, a decentralized database.
+ 
+ ## Polybase
+ 
+ - The decentralized database is in charge of store the necessary data to manage the notifications trough the Push Protocol.
+ - The current schema of the database is not matching the current deployed dApp. (I am working in auth atm)
+ - The final version will include user authentication, current version does not include it.
 
 ## Goerli Contracts
 
