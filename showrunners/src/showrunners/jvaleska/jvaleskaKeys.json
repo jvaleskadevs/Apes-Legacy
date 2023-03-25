@@ -1,0 +1,6 @@
+{
+  "PRIVATE_KEY_NEW_STANDARD_1": {
+    "PK": "INSERT_YOUR_PRIVATE_KEY_HERE",
+    "CHAIN_ID": "eip155:5"
+  }
+}
