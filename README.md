@@ -54,7 +54,7 @@ any previous register *for tokenId* or *for all of them*.
  - To receive the notifications the registrants should download the Push App in their smartphones.
  - The ShowRunners framework will send the notifications to the required users. To know about users and deadlines
    the framework is using the getSubscribers function and fetching data from Polybase, a decentralized database.
- - Relevant Push files are `frontend/components/ClaimComponent.jsx` and `showrunners/src/showrunners/jvaleska/*`.
+ - Relevant Push files are `frontend/components/NotifyComponent.jsx` and `showrunners/src/showrunners/jvaleska/*`.
  
  ## Polybase
  
@@ -64,7 +64,7 @@ any previous register *for tokenId* or *for all of them*.
  - The registrant is in charge to update the claim date stored in Polybase whenever he/she changes this date in the blockchain.
  - The previous feature could be done automatically at the moment of register an Ape to the service. Separated for simplicity.
  - The registrant may delete their data from the database to stop receiving notifications in the future.
- - Relevant Polybase files are `frontend/components/ClaimComponent.jsx` and `showrunners/src/showrunners/jvaleska/jvaleskaChannel.ts`.
+ - Relevant Polybase files are `frontend/components/NotifyComponent.jsx` and `showrunners/src/showrunners/jvaleska/jvaleskaChannel.ts`.
 
 ## Goerli Contracts
 
