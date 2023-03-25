@@ -2,61 +2,49 @@
 
 ## Enabling Inheritance of BAYC, MAYC and BAKC
 
- - This contract enables BAYC, MAYC and BAKC inheritance.
-    
- - Rachel would to send all her Apes to her son when she was 60 and retiring on a desert island
-   with no Internet connection. Just set the date of her sixty birthday as deadline, the address
-   of her son as beneficiary and... Done!
-   
- - Alice has a daughter. Alice would to send her Ape to her daughter when she will be 16 years
-   old. Just set the daughter address as beneficiary and the date of her sixteen as deadline. Done!
-   
- - Bob would to hold their Apes until the end 💎, then send them to his caretaker. Just set the
-   caretaker address as beneficiary and for the deadline he set January, 1st. Every December Bob
-   updates the deadline to the next year. Done!
-   
- - David has no descendants, but he would to send their Apes to his nephews and nieces when they
-   are 14 years old. Just choose a tokenId for each one, and set each deadline to the birthday of
-   its corresponding beneficiary. Done!
-   
- - The mechanism is not like the real world inheritance. It is decentralized, fast, easy,
-   cheap, no paperwork, no third parties, infallible, immutable, flexible, trusted... So, better.
- 
+ - **Apes Legacy** enables BAYC, MAYC and BAKC **inheritance**.  
+ - **Rachel** wants to send all her Apes to her son when she is 60 and retire on a desert island
+   with no Internet connection. Just set the date of her 60th birthday as `deadline`, the address
+   of her son as `beneficiary` and... *Done!*   
+ - **Alice** has a daughter. Alice wants to send her Ape to her daughter when she is 16 years old.
+   Just set the daughter's address as `beneficiary` and the date of her sixteen as `deadline`. *Done!*
+ - **Bob** wants to hold their Apes until the end 💎, then send them to his caretaker. Just set the
+   caretaker's address as `beneficiary` and for the `deadline` he set January, 1st. Every December Bob
+   updates the `deadline` to the next year. *Done!*
+ - **David** has no descendants, but he wants to send their Apes to his nephews and nieces when they
+   are 14 years old. Just choose a `tokenId` for each one, and set each `deadline` to the birthday of
+   its corresponding `beneficiary`. *Done!*
+ - The **mechanism** is not like the real world **inheritance.** It is *decentralized, fast, easy,
+   cheap, no paperwork, no third parties, infallible, immutable, flexible, trusted...* So, **better**.
  - Also, the mechanism could be used as a way to add a secondary wallet to manage Apes for sec
-   purposes, maybe a recovery after lost the keys for the main wallet.
+   purposes, maybe a **recovery** after lost the keys for the main wallet.
 
 ## How it works
 
- - An Ape holder (BAYC, MAYC or BAKC) may set a beneficiary wallet address as of a deadline for 
-   one of their tokens or for all of them.
-
- - The beneficiary will be able to claim the Ape(s) after reach the deadline.
-
- - The registrant may change the beneficiary and/or the deadline as many times as he/she would.
-
- - The registrant may change the beneficiary to the zero address or the deadline to zero to cancel
-any previous register for tokenId or for all of them.
+ - An **Ape holder** (BAYC, MAYC or BAKC) may set a **beneficiary** wallet address as of a **deadline** for 
+   *one of their tokens* or *for all of them.*
+ - The **beneficiary** will be able to **claim** the Ape(s) after reach the **deadline**.
+ - The **registrant** may **change** the **beneficiary** and/or the **deadline** as many times as desired.
+ - The **registrant** may change the **beneficiary** to the *zero address* or the **deadline** to zero to **cancel**
+any previous register *for tokenId* or *for all of them*.
 
 ## Technical details
 
- - The contract stores the state of the inheritance registry using 2 mappings. The first stores
-   the beneficiary of a tokenId of an specific holder. The second stores the deadline in the same
-   way. Both are using MaxUint256 as tokenId to represent the forAll registry.
-   
- - The register/unregister flow consists on update these mappings.
- - The claim token(s) flow consists on transfer the token(s) after check these mappings.
- 
- - The service includes a notification system to help the registrants like Bob not to miss the
-   extension of the claim date. This system uses the Push protocol and Polybase.
- 
- - Yeah, I know, this is nothing complex, but that's all!
+ - The contract stores the **state** of the inheritance registry using 2 *mappings*. The first stores
+   the `beneficiary` of a `tokenId` of an specific holder. The second stores the `deadline` in the same
+   way. Both are using *MaxUint256* as `tokenId` to represent the *forAll* registry.
+ - The **register/unregister flow** consists on update these *mappings*.
+ - The **claim token(s) flow** consists on *transfer* the token(s) after check these *mappings*.
+ - The service includes a **notification system** to help the registrants like Bob not to miss the
+   extension of the claim date. This system uses the **Push protocol** and **Polybase**.
+ - Yeah, I know, this is nothing complex, but that's all!.
 
-## Price
+## Price (ApeCoin)
 
- - Currently the service must to be paid using the Ape Coin token.
- - The price for tokenId is 3 Ape Coin.
- - The price for all tokens is 10 Ape Coin.
- - The price must to be paid only the first time using the service. (for tokenId and forAll)
+ - Currently the service must to be paid using the **Ape Coin token**.
+ - The price for **tokenId** is **3 Ape Coin**.
+ - The price for **all tokens** is **10 Ape Coin**.
+ - The price must to be paid only the **first time** using the service. (*for tokenId* and *forAll*)
  
  ## Push Notifications 
  
@@ -64,9 +52,9 @@ any previous register for tokenId or for all of them.
  - The registrant may set the desired days to be notified before reach the claim date. A notification will be sent daily.
  - This mechanism should help registrants to remember that they need to extend their claim date.
  - To receive the notifications the registrants should download the Push App in their smartphones.
- - Currently this repo is missing the ShowRunners framework. It is required to allow the Apes Legacy Channel to know 
-   about claim dates and to know when to send a notification to a registrant.
- - The ShowRunners framework will fetch the data from Polybase, then it will send the notifications to the required users.
+ - The ShowRunners framework will send the notifications to the required users. To know about users and deadlines
+   the framework is using the getSubscribers function and fetching data from Polybase, a decentralized database.
+ - Relevant Push files are `frontend/components/ClaimComponent.jsx` and `showrunners/src/showrunners/jvaleska/*`.
  
  ## Polybase
  
@@ -76,9 +64,9 @@ any previous register for tokenId or for all of them.
  - The registrant is in charge to update the claim date stored in Polybase whenever he/she changes this date in the blockchain.
  - The previous feature could be done automatically at the moment of register an Ape to the service. Separated for simplicity.
  - The registrant may delete their data from the database to stop receiving notifications in the future.
+ - Relevant Polybase files are `frontend/components/ClaimComponent.jsx` and `showrunners/src/showrunners/jvaleska/jvaleskaChannel.ts`.
 
 ## Goerli Contracts
-
 
 -  [Inherit Apes BAYC contract](https://goerli.etherscan.io/address/0x7CD10B154BC11Dd0Dd2f51435D4802F8bCAF35b5)
 -  [Inherit Apes MAYC contract](https://goerli.etherscan.io/address/0xe667745d7551c01B96b143C350E49C2C4816573f)
@@ -104,7 +92,7 @@ any previous register for tokenId or for all of them.
  1. Finally, register your Ape into the service calling the contract.
  1. After that, you are done! The Ape(s) is/are registered into the service and the beneficiary 
     will be able to claim it/them after reach the deadline.
- 
+    
 This flow will fail in the following scenarios:
 - The deadline is a date in the past.
 - The caller has not enough funds.
@@ -125,3 +113,29 @@ This flow will fail in the following scenarios:
 - The ape holder revoked the approval to the contract.
 - The ape holder transferred the asset(s).
 - The ape holder burnt the asset(s).
+
+### Notifications flow
+
+#### Activate (Opt-in)
+
+1. Connect a wallet pointing to the Goerli network.
+1. Select a collection: BAYC, MAYC or BAKC.
+1. Select Notify.
+1. Choose the desired number of days to be notified before the claim date.
+1. Press Activate Notifications. Some pop-ups will appear. These signatures do not require gas.
+   (Maybe too much pop-ups, even more if I allow users to activate the notifications at the same time they register an ape... 5+ pop ups lol)
+1. Approve the first one to Opt-In (subscribe) to the Apes Legacy channel (Push Protocol)
+1. Approve the second one to Sign In to Polybase.
+1. Finally, accept the next ones to create your user account and to store your preferences about the notifications (Polybase)
+1. Download the Push dApp to get notified in your smartphone! Done!
+
+#### Cancel (Opt-out)
+
+1. Connect a wallet pointing to the Goerli network.
+1. Select a collection: BAYC, MAYC or BAKC.
+1. Select Notify.
+1. Press Cancel Notifications. Some pop-ups will appear. These signatures do not require gas.
+1. Approve the first one to Opt-Out (Unsubscribe) to the Apes Legacy channel (Push Protocol)
+1. Approve the second one to Sign In to Polybase.
+1. Finally, accept the next ones to delete your user account and your preferences about the notifications (Polybase).
+
