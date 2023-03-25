@@ -1,0 +1,70 @@
+@public
+collection User {
+  id: string;
+  
+  @delegate
+  publicKey: PublicKey;
+
+  constructor (id: string) {
+    if (!ctx.publicKey) {
+      throw error('Forbidden. Must to sign tx.');
+    }
+    this.id = id;
+    this.publicKey = ctx.publicKey;
+  }
+
+  del () {
+    if (this.publicKey != ctx.publicKey) {
+      throw error('invalid public key');
+    }
+    selfdestruct();
+  }
+}
+
+
+@public
+collection Notifications {
+  id: string;
+  ape: string;
+  token: string;
+  deadline: number;
+  notifyAfter: number;
+  
+  owner: User;
+  ownerKey: PublicKey;
+
+  ownerId: string;
+  
+  constructor (
+      ape: string, token: string, deadline: number, notifyAfter: number, owner: User
+  ) {
+    if (!ctx.publicKey) {
+      throw error('Forbidden. Must to sign tx.');
+    }
+    this.id = owner.id + '/' + ape + '/' + token;
+    this.ape = ape;
+    this.token = token;
+    this.deadline = deadline;
+    this.notifyAfter = notifyAfter;
+    this.owner = owner; 
+    this.ownerId = owner.id;
+    this.ownerKey = ctx.publicKey;
+  }
+
+  @call(ownerKey)
+  update(deadline?: number, notifyAfter?: number) {
+    if (deadline) {
+      this.deadline = deadline;
+    }
+    if (notifyAfter) {
+      this.notifyAfter = notifyAfter;
+    }
+  }
+
+  @call(ownerKey)
+  del () {
+    selfdestruct();
+  }
+
+  @index(ownerId);
+} 
