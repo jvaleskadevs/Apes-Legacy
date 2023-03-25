@@ -26,7 +26,7 @@
  - The **beneficiary** will be able to **claim** the Ape(s) after reach the **deadline**.
  - The **registrant** may **change** the **beneficiary** and/or the **deadline** as many times as desired.
  - The **registrant** may change the **beneficiary** to the *zero address* or the **deadline** to zero to **cancel**
-any previous register *for tokenId* or *for all of them*.
+   any previous register *for tokenId* or *for all of them*.
 
 ## Technical details
 
