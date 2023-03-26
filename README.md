@@ -64,7 +64,7 @@
  - The registrant is in charge to update the claim date stored in Polybase whenever he/she changes this date in the blockchain.
  - The previous feature could be done automatically at the moment of register an Ape to the service. Separated for simplicity.
  - The registrant may delete their data from the database to stop receiving notifications in the future.
- - Relevant Polybase files are `frontend/components/NotifyComponent.jsx` and `showrunners/src/showrunners/jvaleska/jvaleskaChannel.ts`.
+ - Relevant Polybase files are `polybase.schema`, `frontend/components/NotifyComponent.jsx` and `showrunners/src/showrunners/jvaleska/jvaleskaChannel.ts`.
 
 ## Goerli Contracts
 
